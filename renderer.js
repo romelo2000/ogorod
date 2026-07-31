@@ -130,7 +130,10 @@ async function getWeather(location) {
   const translit = transliterate(location);
   try {
     const geoUrl = `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(translit)}&count=1&language=ru&format=json`;
-    const geoResp = await fetch(geoUrl);
+    const geoController = new AbortController();
+    const geoTimeout = setTimeout(() => geoController.abort(), 5000);
+    const geoResp = await fetch(geoUrl, { signal: geoController.signal });
+    clearTimeout(geoTimeout);
     if (geoResp.ok) {
       const geoData = await geoResp.json();
       if (geoData.results && geoData.results.length > 0) {
@@ -154,7 +157,10 @@ async function getWeather(location) {
   if (!latitude) return null;
 
   const weatherUrl = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m,soil_temperature_0cm&daily=temperature_2m_max,temperature_2m_min,weather_code,precipitation_sum&timezone=auto&forecast_days=7`;
-  const weatherResp = await fetch(weatherUrl);
+  const weatherController = new AbortController();
+  const weatherTimeout = setTimeout(() => weatherController.abort(), 5000);
+  const weatherResp = await fetch(weatherUrl, { signal: weatherController.signal });
+  clearTimeout(weatherTimeout);
   if (!weatherResp.ok) return null;
   const data = await weatherResp.json();
 
