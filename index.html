@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#4caf50">
+  <title>Огород</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== ШАПКА ===== -->
+    <header class="app-header">
+      <div class="header-title">🌱 Огород</div>
+      <div class="weather-widget" id="weather-widget">
+        <span class="weather-icon">🌤️</span>
+        <div class="weather-info">
+          <span class="weather-temp">— °C</span>
+          <span class="weather-loc">Загрузка...</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== КОНТЕНТ ===== -->
+    <div class="content">
+
+      <!-- СТРАНИЦА: ГЛАВНАЯ -->
+      <section id="page-main" class="page active">
+        <div class="page-header">
+          <h1>Что сажаем?</h1>
+          <p class="page-subtitle" id="today-date">Загрузка...</p>
+        </div>
+
+        <div class="card location-card">
+          <div class="card-body">
+            <label>📍 Место</label>
+            <input type="text" id="location" value="деревня Велье, Пушкиногорский район, Псковская область" class="field">
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header-row">
+            <label>🪴 Что сажаем?</label>
+          </div>
+          <div class="crop-grid" id="crop-buttons">
+            <button class="crop-card" data-crop="🥔 Картофель"><span class="crop-emoji">🥔</span><span>Картофель</span></button>
+            <button class="crop-card" data-crop="🥕 Морковь"><span class="crop-emoji">🥕</span><span>Морковь</span></button>
+            <button class="crop-card" data-crop="🧅 Лук"><span class="crop-emoji">🧅</span><span>Лук</span></button>
+            <button class="crop-card" data-crop="🧄 Чеснок"><span class="crop-emoji">🧄</span><span>Чеснок</span></button>
+            <button class="crop-card" data-crop="🥬 Капуста"><span class="crop-emoji">🥬</span><span>Капуста</span></button>
+            <button class="crop-card" data-crop="🍅 Томаты"><span class="crop-emoji">🍅</span><span>Томаты</span></button>
+            <button class="crop-card" data-crop="🥒 Огурцы"><span class="crop-emoji">🥒</span><span>Огурцы</span></button>
+            <button class="crop-card" data-crop="🫑 Перец"><span class="crop-emoji">🫑</span><span>Перец</span></button>
+            <button class="crop-card" data-crop="🍆 Баклажаны"><span class="crop-emoji">🍆</span><span>Баклажаны</span></button>
+            <button class="crop-card" data-crop="🫛 Горох"><span class="crop-emoji">🫛</span><span>Горох</span></button>
+            <button class="crop-card" data-crop="🌽 Кукуруза"><span class="crop-emoji">🌽</span><span>Кукуруза</span></button>
+            <button class="crop-card" data-crop="🥗 Салат"><span class="crop-emoji">🥗</span><span>Салат</span></button>
+            <button class="crop-card" data-crop="🍓 Клубника"><span class="crop-emoji">🍓</span><span>Клубника</span></button>
+            <button class="crop-card" data-crop="🍏 Яблоня"><span class="crop-emoji">🍏</span><span>Яблоня</span></button>
+            <button class="crop-card" data-crop="🍐 Груша"><span class="crop-emoji">🍐</span><span>Груша</span></button>
+            <button class="crop-card" data-crop="🍒 Вишня"><span class="crop-emoji">🍒</span><span>Вишня</span></button>
+            <button class="crop-card" data-crop="🍇 Смородина"><span class="crop-emoji">🍇</span><span>Смородина</span></button>
+            <button class="crop-card" data-crop="🫐 Крыжовник"><span class="crop-emoji">🫐</span><span>Крыжовник</span></button>
+          </div>
+          <input type="text" id="crop-input" class="field" placeholder="Или впишите своё растение..." style="margin-top:12px;">
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <label>📅 Когда?</label>
+            <select id="date-input" class="field">
+              <option value="сегодня">Сегодня</option>
+              <option value="завтра">Завтра</option>
+              <option value="выходные">В выходные</option>
+              <option value="следующая неделя">Следующая неделя</option>
+            </select>
+          </div>
+        </div>
+
+        <button id="ask-btn" class="ask-btn">
+          <span class="ask-btn-icon">🌾</span>
+          <span>Спросить</span>
+        </button>
+
+        <div id="loading" class="loading hidden">
+          <div class="loading-anim"><span class="seed">🌱</span></div>
+          <p>Думаю...</p>
+        </div>
+
+        <div id="answer-section" class="answer-section hidden">
+          <div id="answer-content" class="answer-content"></div>
+        </div>
+      </section>
+
+      <!-- СТРАНИЦА: ИСТОРИЯ -->
+      <section id="page-history" class="page">
+        <div class="page-header">
+          <h1>История</h1>
+          <p class="page-subtitle">Что вы спрашивали</p>
+        </div>
+        <div id="history-list" class="history-list">
+          <p class="empty-state">Здесь пока пусто 🌱<br>Задайте первый вопрос!</p>
+        </div>
+      </section>
+
+      <!-- СТРАНИЦА: ПЛАН -->
+      <section id="page-plan" class="page">
+        <div class="page-header">
+          <h1>План на год</h1>
+          <p class="page-subtitle">Полный календарь работ</p>
+        </div>
+        <div class="card location-card">
+          <div class="card-body">
+            <label>📍 Место</label>
+            <input type="text" id="plan-location" value="деревня Велье, Пушкиногорский район, Псковская область" class="field">
+          </div>
+        </div>
+        <button id="plan-btn" class="ask-btn">
+          <span class="ask-btn-icon">📋</span>
+          <span>Создать план</span>
+        </button>
+        <div id="plan-loading" class="loading hidden">
+          <div class="loading-anim"><span class="seed">🌱</span></div>
+          <p>Готовлю план...</p>
+        </div>
+        <div id="plan-answer" class="answer-section hidden">
+          <div class="plan-toolbar">
+            <button id="plan-copy-btn" class="toolbar-btn">📋 Копировать</button>
+          </div>
+          <div id="plan-content" class="answer-content"></div>
+        </div>
+      </section>
+
+      <!-- СТРАНИЦА: КАЛЕНДАРЬ -->
+      <section id="page-calendar" class="page">
+        <div class="page-header">
+          <h1>Календарь посадок</h1>
+          <div class="calendar-year-select">
+            <label for="calendar-year">Год: </label>
+            <select id="calendar-year" class="field"></select>
+          </div>
+        </div>
+        <div id="calendar-content" class="calendar-content"></div>
+      </section>
+
+      <!-- СТРАНИЦА: НАСТРОЙКИ -->
+      <section id="page-settings" class="page">
+        <div class="page-header">
+          <h1>Настройки</h1>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <label>📍 Место по умолчанию</label>
+            <input type="text" id="default-location" value="деревня Велье, Пушкиногорский район, Псковская область" class="field">
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <label>О программе</label>
+            <p class="hint">
+              🌱 <b>Огород</b> — умный помощник.<br><br>
+              Работает <b>без интернета</b> и <b>без ключей</b>.<br><br>
+              🌙 Лунный календарь — расчётный,<br>
+              работает для любого года.<br><br>
+              📊 История погоды сохраняется локально.<br><br>
+              Версия: 1.1.0
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ===== НИЖНЕЕ МЕНЮ ===== -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-page="main">
+        <span class="nav-icon">🌾</span>
+        <span class="nav-label">Спросить</span>
+      </button>
+      <button class="nav-item" data-page="history">
+        <span class="nav-icon">📋</span>
+        <span class="nav-label">История</span>
+      </button>
+      <button class="nav-item" data-page="plan">
+        <span class="nav-icon">📅</span>
+        <span class="nav-label">План</span>
+      </button>
+      <button class="nav-item" data-page="calendar">
+        <span class="nav-icon">🗓️</span>
+        <span class="nav-label">Календарь</span>
+      </button>
+      <button class="nav-item" data-page="settings">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Настройки</span>
+      </button>
+    </nav>
+
+  </div>
+
+  <script type="module" src="renderer.js"></script>
+</body>
+</html>
