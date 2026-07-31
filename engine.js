@@ -416,7 +416,7 @@ function getCropAdvice(cropName, dateStr, location, weather) {
 
   // Лунный фактор
   let moonAdvice = '';
-  const isRootCrop = ['Картофель', 'Морковь', 'Лук', 'Чеснок'].includes(crop.name);
+  const isRootCrop = ['Картофель', 'Морковь', 'Лук', 'Чеснок', 'Свёкла', 'Сельдерей'].includes(crop.name);
   if (moon.growing && !isRootCrop) {
     moonAdvice = 'Луна растущая — отлично для этой культуры (урожай над землёй)';
   } else if (!moon.growing && isRootCrop) {
